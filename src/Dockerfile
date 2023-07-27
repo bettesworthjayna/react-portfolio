@@ -28,7 +28,7 @@ RUN rm /etc/nginx/conf.d/default.conf
 COPY nginx/nginx.conf /etc/nginx/conf.d
 
 # Expose default port
-EXPOSE 80
+EXPOSE 8080
 
 # Run Nginx server
 CMD ["nginx", "-g", "daemon off;"]
