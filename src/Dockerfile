@@ -1,34 +1,41 @@
-# Base Image
-FROM node:18-alpine as build
-
-# Directory
+FROM node
 WORKDIR /app
-
-# Copy then install dependencies
 COPY package.json .
-RUN npm install
-
-# Copy files excluding node modules
+RUN npm i
 COPY . .
-
-# Exposing default port
+## EXPOSE [Port you mentioned in the vite.config file]
 EXPOSE 5173
+CMD ["npm", "run", "dev"]
 
-# Run dev environment
-RUN npm run build
+ # Base Image
+# FROM node:18-alpine as build_image
 
-# Nginx base image
-FROM nginx:1.17.8-alpine
+# # Directory
+# WORKDIR /app/react-app
 
-# copy build files
-COPY --from=build /app/dist /usr/share/nginx/html
+# # Copy then install dependencies
+# COPY package.json .
 
-# Replace ngnx config files 
-RUN rm /etc/nginx/conf.d/default.conf
-COPY nginx/nginx.conf /etc/nginx/conf.d
+# # install packages
+# RUN npm install
+# RUN npm i vite
 
-# Expose default port
-EXPOSE 8080
+# COPY . . 
 
-# Run Nginx server
-CMD ["nginx", "-g", "daemon off;"]
+# RUN npm run build
+
+# EXPOSE 5173
+# #Second Stage
+# FROM node:18-alpine AS prod_image
+
+# WORKDIR /ap/react-app
+
+# COPY --from=build_image /app/react-app/dist/ /ap/react-app/dist/
+# EXPOSE 8080
+
+# COPY package.json .
+# COPY vite.config.js .
+
+
+
+# CMD ["npm", "run", "dev"]
